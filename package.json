@@ -1,0 +1,17 @@
+{
+  "name": "tite",
+  "version": "0.1.0",
+  "description": "Tiny website engine",
+  "bin": "./bin/tite",
+  "repository": {
+    "type": "git",
+    "url": "git@base-git.tilfin.com:tilfin/tite.git"
+  },
+  "author": "Toshimitsu Takahashi",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "front-matter": "^2.1.2",
+    "showdown": "^1.6.4"
+  }
+}

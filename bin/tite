@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+'use strict';
+
+let params = {};
+if (process.argv.length > 2) {
+  const arg = process.argv[2];
+  if (arg === '-h' || arg === '--help') {
+    console.log('Usage: node server.js [-h|--help] [config]');
+    process.exit(0);
+  }
+
+  try {
+    params = require(process.argv[2]);
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
+
+const server = require('../server')(params);
