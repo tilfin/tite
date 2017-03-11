@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
+const path = require('path');
+
 let params = {};
 if (process.argv.length > 2) {
   const arg = process.argv[2];
@@ -10,7 +12,8 @@ if (process.argv.length > 2) {
   }
 
   try {
-    params = require(process.argv[2]);
+    const cfgPath = path.resolve(process.cwd(), process.argv[2]);
+    params = require(cfgPath);
   } catch (e) {
     console.error(e);
     process.exit(1);

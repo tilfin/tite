@@ -30,7 +30,7 @@ function myServer(params) {
 
   process.on('SIGINT', () => {
     console.log('Received SIGINT');
-    dispose(0);
+    process.exit(3);
   });
 
   return server;
