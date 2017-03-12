@@ -1,7 +1,7 @@
 tite
 ====
 
-_tite_ is a **Ti**ny static websi**te** engine that supports markdown and ejs.
+tite &#x3010;tάɪt&#x3011; is a **Ti**ny static websi**te** engine that supports markdown and ejs.
 
 
 ## Install
@@ -34,9 +34,22 @@ $ npm install tite
 ### Run a server
 
 ```
-$ $(npm bin)/tite.js config.json
+$ $(npm bin)/tite config.json
 ```
 
+## Redirect resolver
+
+* **status** (option) - status code `301` or `302` (default is `302`)
+* **location** (required) - A string is URL or path to be redirected, or an object is composed of keys (accept-language) and the values (URL or path), Using the first define if no match.
+
+### _index_.redirect
+
+```yaml
+status: 301
+location:
+  en: /en/
+  ja: /ja/
+```
 
 ## Example directory tree
 
