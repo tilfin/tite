@@ -1,43 +1,40 @@
-'use strict';
+'use strict'
 
-const http = require('http');
-const listener = require('./lib/listener');
+const path = require('path')
+const express = require('express')
+const Listener = require('./lib/listener')
 
-function myServer(params) {
-  const server = http.createServer(listener(params));
+function createApp(params = {}) {
+  const app = express()
+  const listener = new Listener(params)
+  
+  app.use(express.urlencoded({ extended: false }))
+  app.get('/*', (req, res, next) => {
+    listener.get(req, res, next)
+  })
 
-  const port = process.env.PORT || params.port || 8080;
-  server.listen(port, () => {
-    console.info('Server started on port:%d', port);
-  });
-
-  var isClosing = false;
-  function dispose(exitCode) {
-    if (isClosing) return;
-    isClosing = true;
-
-    console.log('Server stopping...');
-    server.close(() => {
-      console.info('Server stopped');
-      process.exit(exitCode);
-    });
-  }
-
-  process.on('SIGTERM', () => {
-    console.log('Received SIGTERM');
-    dispose(0);
-  });
-
-  process.on('SIGINT', () => {
-    console.log('Received SIGINT');
-    process.exit(3);
-  });
-
-  return server;
+  return app
 }
 
-module.exports = myServer;
+function loadConfig() {
+  const configPath = process.argv.pop()
+  const configFileName = path.resolve(__dirname, configPath)
+  return require(configFileName)
+}
 
-if (!module.parent) {
-  myServer({});
+if (module.parent) {
+  module.exports = createApp
+} else {
+  let params
+  try {
+    params = loadConfig()
+  } catch (err) {
+    console.error(err)
+    return
+  }
+
+  const app = createApp(params)
+  app.listen(params.port || 8080, () => {
+    console.info('Server started')
+  })
 }
